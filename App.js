@@ -58,12 +58,13 @@ const App = () => {
         setValue = {setSearch}
         handleEmptyText = {handleEmptyText}
       />
+      {!search?
+      <ListPlaceholder isSearchEmpty />:
       <ImageGrid
         shouldLoadEnd = {!!search}
         list = {list} 
         fetchImageData = {fetchData}
-        ListEmptyComponent = {() => <ListPlaceholder isSearchEmpty = {!search} />}
-      />
+      />}
     </SafeAreaView>
   );
 };

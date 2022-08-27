@@ -5,7 +5,7 @@ import useDebounce from '../../hooks/useDebounce'
 
 export default function SearchInput({ value, setValue, handleEmptyText, fetchImageData }) {
     const [loading, setLoading] = useState(false)
-    const debouncedValue = useDebounce(value, 250)
+    const debouncedValue = useDebounce(value, 180)
 
     const handleChange = async () => {
         try {

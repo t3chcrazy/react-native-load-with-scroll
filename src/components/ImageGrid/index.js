@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { View, FlatList, RefreshControl, StyleSheet, ActivityIndicator, Pressable } from 'react-native'
+import { View, FlatList, RefreshControl, StyleSheet, ActivityIndicator, Pressable, Alert } from 'react-native'
 import GridImage from '../GridImage'
 import useImageDimensions from '../../hooks/useImageDimensions'
 
 export default function ImageGrid({ list, fetchImageData, shouldLoadEnd, ...props }) {
     const [endLoading, setEndLoading] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
-    const [endReached, setEndReached] = useState(false)
     const [loadError, setLoadError] = useState(false)
     const endCallbackExecuting = useRef(false)
     const { height, VERTICAL_SPACE, GRID_HORIZONTAL_PADDING } = useImageDimensions()
@@ -25,7 +24,7 @@ export default function ImageGrid({ list, fetchImageData, shouldLoadEnd, ...prop
             setLoadError(prev => prev? false: prev)
             await fetchImageData(photos => {
                 if (photos?.length === 0) {
-                    setEndReached(true)
+                    Alert.alert("Volttest", "Limit reached")
                 }
             }, err => {
                 setLoadError(true)
@@ -47,8 +46,6 @@ export default function ImageGrid({ list, fetchImageData, shouldLoadEnd, ...prop
         }
     }
 
-    const renderEmpty = () => <ActivityIndicator size = "large" color = "green" />
-
     const getItemLayout = (data, index) => ({
         length: height,
         offset: (height+VERTICAL_SPACE)*index,
@@ -61,7 +58,7 @@ export default function ImageGrid({ list, fetchImageData, shouldLoadEnd, ...prop
 
     return (
         <FlatList
-            refreshControl = {<RefreshControl endLoading = {refreshing} onRefresh = {handleRefresh} />}
+            refreshControl = {<RefreshControl refreshing = {refreshing} onRefresh = {handleRefresh} />}
             keyExtractor = {keyExtractor}
             data = {list}
             renderItem = {renderItem}
@@ -73,7 +70,6 @@ export default function ImageGrid({ list, fetchImageData, shouldLoadEnd, ...prop
             ItemSeparatorComponent = {renderSeparator}
             onEndReached = {shouldLoadEnd && handleEndReached}
             ListFooterComponent = {renderFooter}
-            ListEmptyComponent = {renderEmpty}
             {...props}
         />
     )
