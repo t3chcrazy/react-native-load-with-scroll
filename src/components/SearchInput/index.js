@@ -45,6 +45,7 @@ export default function SearchInput({ value, setValue, handleEmptyText, fetchIma
 
 const styles = StyleSheet.create({
     root: {
+        paddingVertical: 10,
         borderRadius: 30,
         shadowColor: "#000",
         shadowOffset: {
