@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { View, Image, TextInput, StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { View, Image, TextInput, StyleSheet, Alert, ActivityIndicator, Platform } from 'react-native'
 import { GRID_HORIZONTAL_PADDING } from '../../hooks/useImageDimensions'
 import useDebounce from '../../hooks/useDebounce'
 
@@ -45,7 +45,10 @@ export default function SearchInput({ value, setValue, handleEmptyText, fetchIma
 
 const styles = StyleSheet.create({
     root: {
-        paddingVertical: 10,
+        paddingVertical: Platform.select({
+            ios: 10,
+            android: 5
+        }),
         borderRadius: 30,
         shadowColor: "#000",
         shadowOffset: {
